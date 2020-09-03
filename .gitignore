@@ -20,7 +20,6 @@ ExportedObj/
 *.suo
 *.tmp
 *.user
-*.csproj
 *.userprefs
 *.pidb
 *.booproj
