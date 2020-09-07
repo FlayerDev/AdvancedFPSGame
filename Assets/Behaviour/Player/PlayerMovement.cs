@@ -20,11 +20,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //this.previousY = transform.position.y;
-        if(Physics.OverlapSphere(groundCheckSphere.position, .5f).Length > 1)
+        if(Physics.OverlapSphere(groundCheckSphere.position, ovSphereRadius).Length > 1 && velocity.y < 0)
         {
-            velocity.y = 0f;
+            velocity.y /= 1.1f;
             isGrounded = true;
         }
+        else { isGrounded = false; }
 
         float x = Input.GetAxis("Horizontal");      // X- = A ,X+ = D
         float z = Input.GetAxis("Vertical");        // Z- = S ,Z+ = W
