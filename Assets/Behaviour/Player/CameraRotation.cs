@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraRotation : MonoBehaviour
 {
     [Header("ReferencedObjectss")]
-    public Camera cameraObj;
+    public GameObject cameraObj;
     public GameObject playerBody;
 
     public float mouseSensitivity = 1f;
