@@ -553,8 +553,8 @@ InputManager:
     m_Name: Speed Axis
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
+    negativeButton: end
+    positiveButton: home
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -562,6 +562,6 @@ InputManager:
     sensitivity: 1000
     snap: 0
     invert: 0
-    type: 2
-    axis: 6
+    type: 0
+    axis: 0
     joyNum: 0
