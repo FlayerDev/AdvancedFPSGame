@@ -11,13 +11,13 @@ public class CameraRotation : MonoBehaviour
     public float mouseSensitivity = 1f;
 
     float xRoatation = 0f;
-
+    /*
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
+    */
 
     void Update()
     {
