@@ -415,7 +415,6 @@ GameObject:
   - component: {fileID: 6684090196031698295}
   - component: {fileID: 6684090196031698290}
   - component: {fileID: 6684090196031698285}
-  - component: {fileID: 556308342}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -500,6 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraObj: {fileID: 2644055853955628781}
   playerBody: {fileID: 6684090196031698292}
+  consoleObj: {fileID: 0}
   mouseSensitivity: 6
 --- !u!143 &6684090196031698290
 CharacterController:
@@ -539,21 +539,6 @@ MonoBehaviour:
   isGrounded: 1
   velocity: {x: 0, y: 0, z: 0}
   groundCheckSphere: {fileID: 6684090197611193650}
---- !u!114 &556308342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684090196031698292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b0db9c972ef6f4bb156d2b80109171, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isConsoleActive: 0
-  consoleKeyCode: 99
-  consoleCanvas: {fileID: 0}
 --- !u!1 &6684090197611193651
 GameObject:
   m_ObjectHideFlags: 0
