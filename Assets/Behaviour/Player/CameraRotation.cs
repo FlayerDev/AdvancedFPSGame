@@ -7,7 +7,6 @@ public class CameraRotation : MonoBehaviour
     [Header("ReferencedObjects")]
     public GameObject cameraObj;
     public GameObject playerBody;
-    ConsoleUIController consoleUIController;
 
     public float mouseSensitivity = 1f;
 
@@ -15,7 +14,6 @@ public class CameraRotation : MonoBehaviour
     
     void Start()
     {
-        consoleUIController = GameObject.Find("EventSystem").GetComponent<ConsoleUIController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -23,7 +21,7 @@ public class CameraRotation : MonoBehaviour
 
     void Update()
     {
-        if (!consoleUIController.isConsoleActive)
+        if (!LocalInfo.isPaused)
         {
             float mouseX, mouseY;
             mouseX = Input.GetAxis("Mouse X") * (mouseSensitivity * 10) * Time.deltaTime;

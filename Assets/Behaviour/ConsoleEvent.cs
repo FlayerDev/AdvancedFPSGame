@@ -15,7 +15,7 @@ public class ConsoleEvent
         this.thisObject = thisObject;
         isAdmin = allowAdministratorPermissions;
         InitialiseEvent(out Dictionary<string, Func<string[], int>> commandDict);
-        callerConsole.appendText(commandDict.TryGetValue(param, out Func<string[], int> method) ?
+        callerConsole.appendContent(commandDict.TryGetValue(param, out Func<string[], int> method) ?
             method(args) == 0 ? $" Event: \"{param}\" with Arguments: \"{parseArgs(args)}\" Executed Successfully"
                               : $"[ERROR]: Invalid Arguments \"{parseArgs(args)}\""
                               : $"[ERROR]: Unknown Command \"{param}\"");
@@ -27,7 +27,7 @@ public class ConsoleEvent
         
         commandDict.Add("log", (string[] args) =>
         {
-            thisObject.GetComponent<ConsoleUIController>().appendText($"'{parseArgs(args)}'");
+            thisObject.GetComponent<ConsoleUIController>().appendContent($"'{parseArgs(args)}'");
             return 0;
         });
         commandDict.Add("quit", (string[] args) => { Application.Quit(); return 0; });
