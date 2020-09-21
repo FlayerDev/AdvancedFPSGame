@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
@@ -73,7 +74,7 @@ public class ConsoleUIController : MonoBehaviour
     void eventCaller()
     {
         commandParse(commandField.text,out string command, out string[] args);
-        new ConsoleEvent(command,args,gameObject);
+        new ConsoleEvent(command, args, gameObject);
         commandField.text = string.Empty;
     }
     void commandParse(string input,out string command, out string[] args)
