@@ -8,6 +8,8 @@ TagManager:
   - METAL
   - WOOD
   - CONCRETE
+  - SYNTHETIC
+  - COBBLE
   layers:
   - Default
   - TransparentFX
