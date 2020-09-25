@@ -1,10 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    #region Decals
+    public GameObject woodDecal;
+    public GameObject metalDecal;
+    public GameObject cobbleDecal;
+    public GameObject syntheticDecal;
+    public GameObject concreteDecal;
+    public GameObject defaultDecal;
+    #endregion
     public bool isWeaponAutomatic = true;
     public GameObject massle;
     public float baseDamage = 32;
@@ -18,7 +25,7 @@ public class Weapon : MonoBehaviour
     }
     void Update()
     {
-        isShooting = Input.GetMouseButton(0);
+        isShooting = Input.GetKeyDown(LocalInfo.KeyBinds.Shoot);
     }
     void FixedUpdate()
     {
@@ -26,40 +33,60 @@ public class Weapon : MonoBehaviour
     }
     void fire()
     {
-        float dmg = baseDamage; GameObject player = null;
+        float dmg = baseDamage; RaycastHit playerhit = new RaycastHit();
         RaycastHit[] hitarr = Physics.RaycastAll(massle.transform.position, massle.transform.forward, maxDamageDistance);
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
-        if (findPlayer(hitarr, ref player))
+        if (findPlayer(hitarr,ref playerhit))
         {
             foreach (RaycastHit item in hitarr)
             {
-                if (!item.collider.gameObject.CompareTag("Player")) dmg = calculateDamageDropoff(dmg, item,player);
-                else applyDamage(player);
+                if (!item.collider.gameObject.CompareTag("Player")) dmg = calculateDamageDropoff(dmg, item, playerhit);
+                else applyDamage(playerhit.collider.gameObject);
             }
         }
     }
     //
-    bool findPlayer(RaycastHit[] arr, ref GameObject player)//Returns the player Game Object, if one is found 
+    bool findPlayer(RaycastHit[] arr, ref RaycastHit player)//Returns the player Game Object, if one is found 
     {
         foreach (var item in arr)
         {
             if (item.collider.gameObject.CompareTag("Player"))
             {
-                player = item.collider.gameObject;
+                player = item;
                 return true;
             }
         }
         return false;
     }
-    float calculateDamageDropoff(float dmg, RaycastHit hit, GameObject player)
+    float calculateDamageDropoff(float dmg, RaycastHit hit,RaycastHit playerhit)
     {
-        
+        hit.collider.Raycast(new Ray(playerhit.point, gameObject.transform.position),out RaycastHit outhit , 1000f);
+        Vector3 inpoint = hit.point;
+        Vector3 outpoint = outhit.point;
+        var decal = decalDictionary(hit.collider.gameObject.tag) != null ? decalDictionary(hit.collider.gameObject.tag) : defaultDecal;
+        Instantiate(decal, inpoint, Quaternion.FromToRotation(Vector3.up, hit.normal));
+        Instantiate(decal, outpoint, Quaternion.FromToRotation(Vector3.up, outhit.normal));
+        if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
+        dmg -= Vector3.Distance(inpoint, outpoint) * dropvalue;
         return dmg;
     }
     void applyDamage(GameObject player)
     {
         throw new NotImplementedException("Damage Not Applied");
     } 
+    GameObject decalDictionary(string decal)
+    {
+        Dictionary<string, GameObject> decalDictionary = new Dictionary<string, GameObject>
+        {
+        {"SYNTHETIC", syntheticDecal},
+        {"WOOD" , woodDecal},
+        {"METAL", metalDecal},
+        {"COBBLE", cobbleDecal},
+        {"CONCRETE", concreteDecal}
+        };
+        if (decalDictionary.TryGetValue(decal, out GameObject returnObj)) return returnObj;
+        else return null;
+    }
 }
 static class DamageDropoffPerMaterial
 {

@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 public class ConsoleUIController : MonoBehaviour
 {
     public bool isConsoleActive = false;
-    public KeyCode consoleKeyCode;
     public TextMeshProUGUI consoleTMPUGUI;
     public InputField commandField;
     public GameObject consoleCanvas;
@@ -18,7 +17,7 @@ public class ConsoleUIController : MonoBehaviour
     private void Start() => consoleTMPUGUI.autoSizeTextContainer = true;
     void Update()
     {
-        if (Input.GetKeyDown(consoleKeyCode)) counterState();
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.Console)) counterState();
         consoleCanvas.SetActive(isConsoleActive);
         if (isConsoleActive) consoleUpdate();
     }
