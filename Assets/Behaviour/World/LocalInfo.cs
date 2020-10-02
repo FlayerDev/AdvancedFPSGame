@@ -10,11 +10,12 @@ public static class LocalInfo
     {
         public static KeyCode Shoot = KeyCode.Mouse0;
         public static KeyCode ADS = KeyCode.Mouse1;
-        public static KeyCode Forward = KeyCode.W;
-        public static KeyCode Right = KeyCode.D;
-        public static KeyCode Left = KeyCode.A;
-        public static KeyCode Back = KeyCode.S;
+        public static KeyCode Forward = KeyCode.W;//Unused
+        public static KeyCode Right = KeyCode.D;//Unused
+        public static KeyCode Left = KeyCode.A;//Unused
+        public static KeyCode Back = KeyCode.S;//Unused
         public static KeyCode Jump = KeyCode.Space;
-        public static KeyCode Console = KeyCode.C;
+        public static KeyCode Reload = KeyCode.R;
+        public static KeyCode Console = KeyCode.Backspace;
     }
 }
