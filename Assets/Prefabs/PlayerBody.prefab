@@ -499,7 +499,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraObj: {fileID: 2644055853955628781}
   playerBody: {fileID: 6684090196031698292}
-  consoleObj: {fileID: 0}
   mouseSensitivity: 6
 --- !u!143 &6684090196031698290
 CharacterController:
@@ -766,6 +765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 358543011440036307}
+  - component: {fileID: 8113452773589329127}
   m_Layer: 9
   m_Name: Ak-47
   m_TagString: Untagged
@@ -790,6 +790,42 @@ Transform:
   m_Father: {fileID: 1931976686332038200}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8113452773589329127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7677690637386691029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aacfbcf6e7574724aa03a1cfa8d88775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  woodDecal: {fileID: 3177253546505315522, guid: 2b2bc03288e530447ae7dc33a3c7cb72,
+    type: 3}
+  metalDecal: {fileID: 3177253546505315522, guid: 2b2bc03288e530447ae7dc33a3c7cb72,
+    type: 3}
+  cobbleDecal: {fileID: 3177253546505315522, guid: 2b2bc03288e530447ae7dc33a3c7cb72,
+    type: 3}
+  syntheticDecal: {fileID: 3177253546505315522, guid: 2b2bc03288e530447ae7dc33a3c7cb72,
+    type: 3}
+  concreteDecal: {fileID: 3177253546505315522, guid: 2b2bc03288e530447ae7dc33a3c7cb72,
+    type: 3}
+  defaultDecal: {fileID: 3177253546505315522, guid: 2b2bc03288e530447ae7dc33a3c7cb72,
+    type: 3}
+  isWeaponAutomatic: 1
+  massle: {fileID: 7677690637386691029}
+  baseDamage: 32
+  maxDamageDistance: 500
+  DistanceDropoff: 0.1
+  isArmed: 1
+  isShooting: 0
+  doRecoil: 1
+  VerticalRecoil: 0.1
+  MaximumRecoil: 10
+  HorizontalRecoil: 0.1
+  HorizontalMultiplierOnMaxVertical: 3
 --- !u!1 &7916596186437324429
 GameObject:
   m_ObjectHideFlags: 0

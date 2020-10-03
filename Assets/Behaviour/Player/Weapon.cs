@@ -48,35 +48,37 @@ public class Weapon : MonoBehaviour
         float dmg = baseDamage;
         RaycastHit[] hitarr = Physics.RaycastAll(massle.transform.position, massle.transform.forward, maxDamageDistance);
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
-
         foreach (RaycastHit item in hitarr)
         {
             if (item.collider.gameObject.CompareTag("Player")) applyDamage(item.collider.gameObject, dmg);
-            dmg = calculateDamage(dmg, item, new Vector3(
-                massle.transform.position.x + maxDamageDistance, massle.transform.position.y, massle.transform.position.z));
+            dmg = calculateDamage(dmg, item);
         }
-
     }
     //
-    float calculateDamage(float dmg, RaycastHit hit, Vector3 rayend)
-    {
-        hit.collider.Raycast(new Ray(rayend, hit.transform.position), out RaycastHit outhit, 1000f);
+    float calculateDamage(float dmg, RaycastHit hit)
+    { 
+        hit.collider.Raycast(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
+            , massle.transform.position.normalized), out RaycastHit outhit,float.PositiveInfinity);
+        //Debug.Log(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance);
+        //Debug.DrawRay(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance, outhit.point,Color.red,10000f);
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
         if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
         dmg -= Vector3.Distance(inpoint, outpoint) * dropvalue;
+        dmg = Math.Abs(dmg);// Must fix
         return dmg;
     }
     void applyDamage(GameObject player, float amount)
     {
-        throw new NotImplementedException("Damage Not Applied");
+        Debug.Log($"Dealt {amount} of damage to {player.name}");
     }
     void printBulletDecal(RaycastHit hit, RaycastHit outhit, Vector3 inpoint, Vector3 outpoint)
     {
         if (hit.collider.gameObject.CompareTag("Player")) return;
         var decal = decalDictionary(hit.collider.gameObject.tag) != null ? decalDictionary(hit.collider.gameObject.tag) : defaultDecal;
-        Instantiate(decal, inpoint, Quaternion.FromToRotation(Vector3.up, hit.normal)).transform.SetParent(hit.transform, true);
-        Instantiate(decal, outpoint, Quaternion.FromToRotation(Vector3.up, outhit.normal)).transform.SetParent(hit.transform, true);
+        Instantiate(decal, inpoint, Quaternion.LookRotation(hit.normal));
+        Instantiate(decal, outpoint, Quaternion.LookRotation(outhit.normal));
+        Debug.Log($"{outpoint.x} {outpoint.y} {outpoint.z}, {Quaternion.LookRotation(outhit.normal)}");
     }
     GameObject decalDictionary(string decal)
     {
