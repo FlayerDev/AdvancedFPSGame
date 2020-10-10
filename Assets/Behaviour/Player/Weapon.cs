@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -21,7 +22,6 @@ public class Weapon : MonoBehaviour
     [Range(10f, 2000f)] public float maxDamageDistance = 500;
     public float DistanceDropoff = .1f;
     [SerializeField] bool isArmed = true;
-    [SerializeField] bool isShooting = false;
     [Header("Recoil")]
     public bool doRecoil = true;
     public float VerticalRecoil = .1f;
@@ -31,18 +31,11 @@ public class Weapon : MonoBehaviour
 
 
     #endregion
-    void Start()
-    {
-
-    }
     void Update()
     {
-        isShooting = Input.GetKeyDown(LocalInfo.KeyBinds.Shoot);
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire();
     }
-    void FixedUpdate()
-    {
-        if (isShooting) fire();
-    }
+    
     void fire()
     {
         float dmg = baseDamage;
@@ -54,23 +47,24 @@ public class Weapon : MonoBehaviour
             dmg = calculateDamage(dmg, item);
         }
     }
-    //
+    #region Fire Functions
     float calculateDamage(float dmg, RaycastHit hit)
-    { 
-        hit.collider.Raycast(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
-            , massle.transform.position.normalized), out RaycastHit outhit,float.PositiveInfinity);
-        //Debug.Log(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance);
-        //Debug.DrawRay(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance, outhit.point,Color.red,10000f);
+    {
+        RaycastHit outhit = findOppositeSide(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
+            , massle.transform.TransformDirection(Vector3.back)), hit.collider.gameObject);
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
         if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
         dmg -= Vector3.Distance(inpoint, outpoint) * dropvalue;
-        dmg = Math.Abs(dmg);// Must fix
+        Debug.Log($"{Vector3.Distance(inpoint, outpoint)} Distance");
+        dmg = dmg < 999f && dmg > 0f ? dmg : (dmg > 999f ? 999f : 0f); 
         return dmg;
     }
-    void applyDamage(GameObject player, float amount)
+    RaycastHit findOppositeSide(Ray ray,GameObject gO)
     {
-        Debug.Log($"Dealt {amount} of damage to {player.name}");
+        var res = Physics.RaycastAll(ray, 9999f);
+        foreach (RaycastHit item in res) if (item.collider.gameObject == gO) return item;
+        return new RaycastHit();
     }
     void printBulletDecal(RaycastHit hit, RaycastHit outhit, Vector3 inpoint, Vector3 outpoint)
     {
@@ -78,8 +72,13 @@ public class Weapon : MonoBehaviour
         var decal = decalDictionary(hit.collider.gameObject.tag) != null ? decalDictionary(hit.collider.gameObject.tag) : defaultDecal;
         Instantiate(decal, inpoint, Quaternion.LookRotation(hit.normal));
         Instantiate(decal, outpoint, Quaternion.LookRotation(outhit.normal));
-        Debug.Log($"{outpoint.x} {outpoint.y} {outpoint.z}, {Quaternion.LookRotation(outhit.normal)}");
     }
+    void applyDamage(GameObject player, float amount)
+    {
+        Debug.Log($"Dealt {amount} of damage to {player.name}");
+    }
+    #endregion
+    #region Dictionaries
     GameObject decalDictionary(string decal)
     {
         Dictionary<string, GameObject> decalDictionary = new Dictionary<string, GameObject>
@@ -98,11 +97,12 @@ static class DamageDropoffPerMaterial
 {
     public static Dictionary<string, float> MaterialValue = new Dictionary<string, float>
     {
-        {"SYNTHETIC", .2f},
-        {"WOOD" , .4f},
-        {"METAL", .8f},
-        {"COBBLE", 1f},
-        {"CONCRETE", 1.5f},
-        {"Player", .5f}
+        {"SYNTHETIC", 2f},
+        {"WOOD" , 4f},
+        {"METAL", 8f},
+        {"COBBLE", 10f},
+        {"CONCRETE", 15f},
+        {"Player", 5f}
     };
 }
+#endregion

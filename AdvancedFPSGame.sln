@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.ProBuilder.Examples",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{D25BC2FB-E3D2-65A7-8D2C-AE70E875E5CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{C4D047F4-1BA7-5C83-5519-5FED84DA0A5C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.ProBuilder.Examples.Editor", "Unity.ProBuilder.Examples.Editor.csproj", "{B7DEFE6B-D6DF-D302-AE41-68D72F62EB2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{D58492C0-6F18-6C2B-2DAC-3659AB4A7C70}"
@@ -25,10 +23,6 @@ Global
 		{D25BC2FB-E3D2-65A7-8D2C-AE70E875E5CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D25BC2FB-E3D2-65A7-8D2C-AE70E875E5CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D25BC2FB-E3D2-65A7-8D2C-AE70E875E5CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4D047F4-1BA7-5C83-5519-5FED84DA0A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4D047F4-1BA7-5C83-5519-5FED84DA0A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4D047F4-1BA7-5C83-5519-5FED84DA0A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4D047F4-1BA7-5C83-5519-5FED84DA0A5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7DEFE6B-D6DF-D302-AE41-68D72F62EB2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7DEFE6B-D6DF-D302-AE41-68D72F62EB2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7DEFE6B-D6DF-D302-AE41-68D72F62EB2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
