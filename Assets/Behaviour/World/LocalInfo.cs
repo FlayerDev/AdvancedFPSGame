@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public static class LocalInfo
 {
@@ -16,6 +17,6 @@ public static class LocalInfo
         public static KeyCode Back = KeyCode.S;//Unused
         public static KeyCode Jump = KeyCode.Space;
         public static KeyCode Reload = KeyCode.R;
-        public static KeyCode Console = KeyCode.Backspace;
+        public static KeyCode Console = KeyCode.F1;
     }
 }

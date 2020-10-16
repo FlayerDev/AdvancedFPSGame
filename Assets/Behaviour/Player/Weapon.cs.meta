@@ -3,7 +3,19 @@ guid: aacfbcf6e7574724aa03a1cfa8d88775
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - woodDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
+      type: 3}
+  - metalDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
+      type: 3}
+  - cobbleDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
+      type: 3}
+  - syntheticDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
+      type: 3}
+  - concreteDecal: {instanceID: 0}
+  - defaultDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
+      type: 3}
+  - massle: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

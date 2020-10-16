@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -15,13 +14,16 @@ public class Weapon : MonoBehaviour
     public GameObject concreteDecal;
     public GameObject defaultDecal;
     #endregion
-    [Space][Header("Basic Settings")]
+    [Space]
+    [Header("Basic Settings")]
     public bool isWeaponAutomatic = true;
-    public GameObject massle;
+    public GameObject mussle;
     public float baseDamage = 32;
     [Range(10f, 2000f)] public float maxDamageDistance = 500;
     public float DistanceDropoff = .1f;
+    public float PenetrationPower = 1f;
     [SerializeField] bool isArmed = true;
+    [SerializeField] int RPM = 200;
     [Header("Recoil")]
     public bool doRecoil = true;
     public float VerticalRecoil = .1f;
@@ -33,13 +35,24 @@ public class Weapon : MonoBehaviour
     #endregion
     void Update()
     {
-        if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire();
+        if (isWeaponAutomatic) if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire();
+            else if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire();
     }
-    
+    async void rearm()
+    {
+        isArmed = false;
+        var ms = RPM / 60;
+        ms = 1000 / ms;
+        await System.Threading.Tasks.Task.Delay(ms);
+        isArmed = true;
+    }
+
     void fire()
     {
+        if (!isArmed) return;
+        rearm();
         float dmg = baseDamage;
-        RaycastHit[] hitarr = Physics.RaycastAll(massle.transform.position, massle.transform.forward, maxDamageDistance);
+        RaycastHit[] hitarr = Physics.RaycastAll(mussle.transform.position, mussle.transform.forward, maxDamageDistance);
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
         foreach (RaycastHit item in hitarr)
         {
@@ -50,17 +63,20 @@ public class Weapon : MonoBehaviour
     #region Fire Functions
     float calculateDamage(float dmg, RaycastHit hit)
     {
-        RaycastHit outhit = findOppositeSide(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
-            , massle.transform.TransformDirection(Vector3.back)), hit.collider.gameObject);
+        //RaycastHit outhit = findOppositeSide(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
+        //    , massle.transform.TransformDirection(Vector3.back)), hit.collider.gameObject);
+        hit.collider.Raycast(new Ray(mussle.transform.position + mussle.transform.forward.normalized * maxDamageDistance
+            , mussle.transform.TransformDirection(Vector3.back)), out RaycastHit outhit , maxDamageDistance * 2);
+
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
         if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
-        dmg -= Vector3.Distance(inpoint, outpoint) * dropvalue;
+        dmg -= Vector3.Distance(inpoint, outpoint) * dropvalue / PenetrationPower;
         Debug.Log($"{Vector3.Distance(inpoint, outpoint)} Distance");
-        dmg = dmg < 999f && dmg > 0f ? dmg : (dmg > 999f ? 999f : 0f); 
+        dmg = dmg < 999f && dmg > 0f ? dmg : (dmg > 999f ? 999f : 0f);
         return dmg;
     }
-    RaycastHit findOppositeSide(Ray ray,GameObject gO)
+    static RaycastHit findOppositeSide(Ray ray, GameObject gO)
     {
         var res = Physics.RaycastAll(ray, 9999f);
         foreach (RaycastHit item in res) if (item.collider.gameObject == gO) return item;
@@ -97,12 +113,12 @@ static class DamageDropoffPerMaterial
 {
     public static Dictionary<string, float> MaterialValue = new Dictionary<string, float>
     {
-        {"SYNTHETIC", 2f},
-        {"WOOD" , 4f},
-        {"METAL", 8f},
-        {"COBBLE", 10f},
-        {"CONCRETE", 15f},
-        {"Player", 5f}
+        {"SYNTHETIC", 8f},
+        {"WOOD" , 16f},
+        {"METAL", 32f},
+        {"COBBLE", 40f},
+        {"CONCRETE", 60f},
+        {"Player", 20f}
     };
 }
 #endregion

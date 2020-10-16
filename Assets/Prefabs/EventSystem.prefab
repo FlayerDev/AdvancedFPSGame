@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isConsoleActive: 0
-  consoleKeyCode: 99
   consoleTMPUGUI: {fileID: 0}
   commandField: {fileID: 0}
-  consoleCanvas: {fileID: 0}
+  consoleCanvas: {fileID: 1676517954914604781, guid: 3e4ea4c7b7c9ae049aa80da329d56bf5,
+    type: 3}
