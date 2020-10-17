@@ -16,14 +16,15 @@ public class Weapon : MonoBehaviour
     #endregion
     [Space]
     [Header("Basic Settings")]
-    public bool isWeaponAutomatic = true;
+    public bool isWeaponAutomatic = true; //While enabled the weapon will automatically fire when the Shoot button is held
     public GameObject mussle;
-    public float baseDamage = 32;
-    [Range(10f, 2000f)] public float maxDamageDistance = 500;
-    public float DistanceDropoff = .1f;
-    public float PenetrationPower = 1f;
-    [SerializeField] bool isArmed = true;
-    [SerializeField] int RPM = 200;
+    public float baseDamage = 32; // Initial damage of the weapon
+    [Range(10f, 2000f)] public float maxDamageDistance = 500; // Max distance the bullet/Raycast will travel
+    public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]!
+    public float PenetrationPower = 1f;// Νeutralizes the wallbang's DamageDropoffPerMaterial
+    [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
+    public bool allowADS = false;
+    [SerializeField] int RPM = 200; // Rounds Per Minute: MS between shots = 1000 / (RPM / 60)
     [Header("Recoil")]
     public bool doRecoil = true;
     public float VerticalRecoil = .1f;
@@ -33,11 +34,19 @@ public class Weapon : MonoBehaviour
 
 
     #endregion
-    void Update()
+    #region others
+    private Action update;
+    #endregion
+    private void Awake()
     {
-        if (isWeaponAutomatic) if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire();
-            else if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire();
+        update += () => {
+            if (isWeaponAutomatic) if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire();
+                else if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire();
+        };
+
+        if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
+    void Update() => update();
     async void rearm()
     {
         isArmed = false;
