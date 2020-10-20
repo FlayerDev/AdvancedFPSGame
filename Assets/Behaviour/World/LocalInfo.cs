@@ -17,6 +17,10 @@ public static class LocalInfo
         public static KeyCode Back = KeyCode.S;//Unused
         public static KeyCode Jump = KeyCode.Space;
         public static KeyCode Reload = KeyCode.R;
+        public static KeyCode InventoryMain = KeyCode.Alpha1;
+        public static KeyCode InventorySecondary = KeyCode.Alpha2;
+
+
         public static KeyCode Console = KeyCode.F1;
     }
 }

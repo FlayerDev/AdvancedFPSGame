@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    
+    public GameObject[] inventoryItems;
     void Start()
     {
         
@@ -14,5 +14,14 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         
+    }
+    void refreshInventory()
+    {
+        List<GameObject> itemsToAdd = new List<GameObject>();
+
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+            itemsToAdd.Add(gameObject.transform.GetChild(i).gameObject);
+        
+        inventoryItems = itemsToAdd.ToArray();
     }
 }
