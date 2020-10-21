@@ -15,12 +15,12 @@ public class PlayerMovement : MonoBehaviour
     //[SerializeField]float previousY = 0;
     public bool isGrounded = false;
     [SerializeField] Vector3 velocity;
-    public Transform groundCheckSphere;
+    public GameObject groundCheckSphere;
 
     void Update()
     {
         //this.previousY = transform.position.y;
-        if(Physics.OverlapSphere(groundCheckSphere.position, ovSphereRadius).Length > 1 && velocity.y < 0)
+        if(Physics.OverlapSphere(groundCheckSphere.transform.position, ovSphereRadius).Length > 1 && velocity.y < 0)
         {
             velocity.y /= 1.1f;
             isGrounded = true;
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        if (Input.GetKeyDown(LocalInfo.KeyBinds.Jump) && isGrounded && !LocalInfo.isPaused)
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.Jump) && isGrounded && !LocalInfo.IsPaused)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2 * gravity);
         }

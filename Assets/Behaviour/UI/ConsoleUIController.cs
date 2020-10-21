@@ -32,14 +32,14 @@ public class ConsoleUIController : MonoBehaviour
         if (isConsoleActive)
         {
             isConsoleActive = false;
-            LocalInfo.isPaused = false;
+            LocalInfo.IsPaused = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             UnityEngine.Cursor.visible = false;
         }
         else
         {
             isConsoleActive = true;
-            LocalInfo.isPaused = true;
+            LocalInfo.IsPaused = true;
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
             commandField.Select();

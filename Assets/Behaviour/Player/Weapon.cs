@@ -39,14 +39,12 @@ public class Weapon : MonoBehaviour
     #endregion
     private void Awake()
     {
-        update += () => {
-            if (isWeaponAutomatic) if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire();
-                else if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire();
-        };
+        if (isWeaponAutomatic) update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); };
+        else update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
 
         if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
-    void Update() => update();
+    public void Update() => update();
     async void rearm()
     {
         isArmed = false;
@@ -56,7 +54,7 @@ public class Weapon : MonoBehaviour
         isArmed = true;
     }
 
-    void fire()
+    public void fire()
     {
         if (!isArmed) return;
         rearm();
@@ -75,7 +73,7 @@ public class Weapon : MonoBehaviour
         //RaycastHit outhit = findOppositeSide(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
         //    , massle.transform.TransformDirection(Vector3.back)), hit.collider.gameObject);
         hit.collider.Raycast(new Ray(mussle.transform.position + mussle.transform.forward.normalized * maxDamageDistance
-            , mussle.transform.TransformDirection(Vector3.back)), out RaycastHit outhit , maxDamageDistance * 2);
+            , mussle.transform.TransformDirection(Vector3.back)), out RaycastHit outhit, maxDamageDistance * 2);
 
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);

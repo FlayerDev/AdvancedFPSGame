@@ -21,7 +21,7 @@ public class CameraRotation : MonoBehaviour
 
     void Update()
     {
-        if (!LocalInfo.isPaused)
+        if (!LocalInfo.IsPaused)
         {
             float mouseX, mouseY;
             mouseX = Input.GetAxis("Mouse X") * (mouseSensitivity * 10) * Time.deltaTime;

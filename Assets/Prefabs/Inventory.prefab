@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 549741216808657629}
   - component: {fileID: 3175273924046459830}
   m_Layer: 0
-  m_Name: WeaponHolder
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e0d8370b2009c4fa96e8941d1bdda3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryItems: []
+  weaponHolders:
+  - {fileID: 6516686902895406018}
+  - {fileID: 2621964811259009043}
+  - {fileID: 3019682711336155281}
+  enabledIndex: 0
 --- !u!1 &3019682711336155281
 GameObject:
   m_ObjectHideFlags: 0
