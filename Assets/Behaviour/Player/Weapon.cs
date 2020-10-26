@@ -16,10 +16,11 @@ public class Weapon : MonoBehaviour
     #endregion
     [Space]
     [Header("Basic Settings")]
+    public WeaponType WeaponType;
     public bool isWeaponAutomatic = true; //While enabled the weapon will automatically fire when the Shoot button is held
     public GameObject mussle;
     public float baseDamage = 32; // Initial damage of the weapon
-    [Range(10f, 2000f)] public float maxDamageDistance = 500; // Max distance the bullet/Raycast will travel
+    [Range(10f, 2000f)] public float effectiveDistance = 500; // Max distance the bullet/Raycast will travel
     public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]!
     public float PenetrationPower = 1f;// Νeutralizes the wallbang's DamageDropoffPerMaterial
     [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
@@ -59,7 +60,7 @@ public class Weapon : MonoBehaviour
         if (!isArmed) return;
         rearm();
         float dmg = baseDamage;
-        RaycastHit[] hitarr = Physics.RaycastAll(mussle.transform.position, mussle.transform.forward, maxDamageDistance);
+        RaycastHit[] hitarr = Physics.RaycastAll(mussle.transform.position, mussle.transform.forward, effectiveDistance);
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
         foreach (RaycastHit item in hitarr)
         {
@@ -72,8 +73,8 @@ public class Weapon : MonoBehaviour
     {
         //RaycastHit outhit = findOppositeSide(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
         //    , massle.transform.TransformDirection(Vector3.back)), hit.collider.gameObject);
-        hit.collider.Raycast(new Ray(mussle.transform.position + mussle.transform.forward.normalized * maxDamageDistance
-            , mussle.transform.TransformDirection(Vector3.back)), out RaycastHit outhit, maxDamageDistance * 2);
+        hit.collider.Raycast(new Ray(mussle.transform.position + mussle.transform.forward.normalized * effectiveDistance
+            , mussle.transform.TransformDirection(Vector3.back)), out RaycastHit outhit, effectiveDistance * 2);
 
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
@@ -101,7 +102,7 @@ public class Weapon : MonoBehaviour
         Debug.Log($"Dealt {amount} of damage to {player.name}");
     }
     #endregion
-    #region Dictionaries
+    #region Dictionaries And Enums
     GameObject decalDictionary(string decal)
     {
         Dictionary<string, GameObject> decalDictionary = new Dictionary<string, GameObject>
@@ -127,5 +128,11 @@ static class DamageDropoffPerMaterial
         {"CONCRETE", 60f},
         {"Player", 20f}
     };
+}
+public enum WeaponType
+{
+    Main,
+    Secondary,
+    Utility
 }
 #endregion
