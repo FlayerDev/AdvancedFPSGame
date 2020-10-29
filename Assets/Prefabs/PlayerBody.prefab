@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 799863726}
   m_Layer: 0
-  m_Name: Mussle
+  m_Name: Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -673,17 +673,17 @@ PrefabInstance:
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.39
+      value: 0.381
       objectReference: {fileID: 0}
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.298
+      value: -0.271
       objectReference: {fileID: 0}
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.205
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}

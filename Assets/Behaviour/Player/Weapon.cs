@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Item))]
 public class Weapon : MonoBehaviour
 {
     #region Properties
@@ -16,11 +16,10 @@ public class Weapon : MonoBehaviour
     #endregion
     [Space]
     [Header("Basic Settings")]
-    public WeaponType WeaponType;
     public bool isWeaponAutomatic = true; //While enabled the weapon will automatically fire when the Shoot button is held
-    public GameObject mussle;
+    GameObject muzzle;
     public float baseDamage = 32; // Initial damage of the weapon
-    [Range(10f, 2000f)] public float effectiveDistance = 500; // Max distance the bullet/Raycast will travel
+    [Range(10f, 2000f)] public float effectiveRange = 500; // Max distance the bullet/Raycast will travel
     public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]!
     public float PenetrationPower = 1f;// Νeutralizes the wallbang's DamageDropoffPerMaterial
     [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
@@ -28,11 +27,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] int RPM = 200; // Rounds Per Minute: MS between shots = 1000 / (RPM / 60)
     [Header("Recoil")]
     public bool doRecoil = true;
+    [Range(.01f,1f)]public float recoilReturnSpeed = .1f;
     public float VerticalRecoil = .1f;
     public float MaximumRecoil = 10f;
     public float HorizontalRecoil = .1f;
     public float HorizontalMultiplierOnMaxVertical = 3f;
 
+    float currentVerticalRecoil = 0;
+    float currentHorizontalRecoil = 0;
 
     #endregion
     #region others
@@ -40,12 +42,18 @@ public class Weapon : MonoBehaviour
     #endregion
     private void Awake()
     {
+        muzzle = GameObject.Find("Muzzle");
         if (isWeaponAutomatic) update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); };
         else update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
 
-        if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
+        //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
     public void Update() => update();
+    private void FixedUpdate()
+    {
+        currentHorizontalRecoil /= 1f + recoilReturnSpeed;
+        currentVerticalRecoil /= 1f + recoilReturnSpeed;
+    }
     async void rearm()
     {
         isArmed = false;
@@ -60,46 +68,51 @@ public class Weapon : MonoBehaviour
         if (!isArmed) return;
         rearm();
         float dmg = baseDamage;
-        RaycastHit[] hitarr = Physics.RaycastAll(mussle.transform.position, mussle.transform.forward, effectiveDistance);
+        calculateRecoil();
+        RaycastHit[] hitarr = Physics.RaycastAll(muzzle.transform.position, 
+            muzzle.transform.forward + new Vector3(0f,currentVerticalRecoil, currentHorizontalRecoil), effectiveRange);
+
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
         foreach (RaycastHit item in hitarr)
         {
-            if (item.collider.gameObject.CompareTag("Player")) applyDamage(item.collider.gameObject, dmg);
+            if (item.collider.gameObject.GetComponent<IDamageable>() != null) applyDamage(item.collider.gameObject, dmg);
             dmg = calculateDamage(dmg, item);
         }
     }
     #region Fire Functions
+    void calculateRecoil()
+    {
+        currentVerticalRecoil += VerticalRecoil / 10;
+    }
     float calculateDamage(float dmg, RaycastHit hit)
     {
-        //RaycastHit outhit = findOppositeSide(new Ray(massle.transform.position + massle.transform.forward.normalized * maxDamageDistance
-        //    , massle.transform.TransformDirection(Vector3.back)), hit.collider.gameObject);
-        hit.collider.Raycast(new Ray(mussle.transform.position + mussle.transform.forward.normalized * effectiveDistance
-            , mussle.transform.TransformDirection(Vector3.back)), out RaycastHit outhit, effectiveDistance * 2);
-
+        Vector3 returnPoint = muzzle.transform.position + (hit.point - muzzle.transform.position).normalized * effectiveRange;
+        hit.collider.Raycast(new Ray(returnPoint , (muzzle.transform.position - returnPoint).normalized)
+            , out RaycastHit outhit, effectiveRange * 2);
+        
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
         if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
-        dmg -= Vector3.Distance(inpoint, outpoint) * dropvalue / PenetrationPower;
-        Debug.Log($"{Vector3.Distance(inpoint, outpoint)} Distance");
+        dmg -= Vector3.Distance(inpoint, outpoint) * (dropvalue / PenetrationPower);
         dmg = dmg < 999f && dmg > 0f ? dmg : (dmg > 999f ? 999f : 0f);
         return dmg;
     }
-    static RaycastHit findOppositeSide(Ray ray, GameObject gO)
-    {
-        var res = Physics.RaycastAll(ray, 9999f);
-        foreach (RaycastHit item in res) if (item.collider.gameObject == gO) return item;
-        return new RaycastHit();
-    }
+    //static RaycastHit findOppositeSide(Ray ray, GameObject gO)
+    //{
+    //    var res = Physics.RaycastAll(ray, 9999f);
+    //    foreach (RaycastHit item in res) if (item.collider.gameObject == gO) return item;
+    //    return new RaycastHit();
+    //}
     void printBulletDecal(RaycastHit hit, RaycastHit outhit, Vector3 inpoint, Vector3 outpoint)
     {
         if (hit.collider.gameObject.CompareTag("Player")) return;
-        var decal = decalDictionary(hit.collider.gameObject.tag) != null ? decalDictionary(hit.collider.gameObject.tag) : defaultDecal;
+        var decal = decalDictionary(hit.collider.gameObject.tag) ?? defaultDecal;
         Instantiate(decal, inpoint, Quaternion.LookRotation(hit.normal));
         Instantiate(decal, outpoint, Quaternion.LookRotation(outhit.normal));
     }
     void applyDamage(GameObject player, float amount)
     {
-        Debug.Log($"Dealt {amount} of damage to {player.name}");
+        player.GetComponent<IDamageable>().damage(amount);
     }
     #endregion
     #region Dictionaries And Enums
@@ -129,10 +142,5 @@ static class DamageDropoffPerMaterial
         {"Player", 20f}
     };
 }
-public enum WeaponType
-{
-    Main,
-    Secondary,
-    Utility
-}
+
 #endregion

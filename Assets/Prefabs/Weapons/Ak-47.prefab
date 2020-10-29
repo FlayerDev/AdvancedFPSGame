@@ -88,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7645089367403270687}
+  - component: {fileID: 8811047272426347716}
   - component: {fileID: 2196027024392732459}
   - component: {fileID: 5626469467630197273}
   m_Layer: 9
@@ -106,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 319120377766980121}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1.2}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 6893129911905487419}
   - {fileID: 8003059482946436755}
@@ -114,6 +115,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8811047272426347716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319120377766980121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a1e0dd0adcf184b9210dd463fb8c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 0
 --- !u!114 &2196027024392732459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +152,6 @@ MonoBehaviour:
     type: 3}
   defaultDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
     type: 3}
-  WeaponType: 0
   isWeaponAutomatic: 1
   mussle: {fileID: 0}
   baseDamage: 32
@@ -163,7 +176,7 @@ Animator:
   m_GameObject: {fileID: 319120377766980121}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7c11f8fe3efc4a341a6b2f171b418f12, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
