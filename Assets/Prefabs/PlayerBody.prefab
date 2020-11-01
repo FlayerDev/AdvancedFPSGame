@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 6684090196031698295}
   - component: {fileID: 6684090196031698290}
   - component: {fileID: 6684090196031698285}
+  - component: {fileID: 1507606626}
   m_Layer: 10
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -392,11 +393,24 @@ MonoBehaviour:
   controller: {fileID: 6684090196031698290}
   speed: 5
   gravity: -19.62
-  jumpForce: 1.2
+  jumpForce: 1.4
   ovSphereRadius: 0.5
   isGrounded: 1
   velocity: {x: 0, y: 0, z: 0}
   groundCheckSphere: {fileID: 6684090197611193651}
+--- !u!114 &1507606626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684090196031698292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdde65567474845468078994635a8b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &6684090197611193651
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +438,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6684090197611193651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.621, z: 0}
+  m_LocalPosition: {x: 0, y: -0.565, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6684090196031698291}
@@ -472,7 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimumDamageSpeed: 15
-  fallDamageMultiplier: 1
+  fallDamageMultiplier: 10
   isGrounded: 0
 --- !u!1 &6684090197632295754
 GameObject:

@@ -16,6 +16,6 @@ public class GroundTracer : MonoBehaviour
     }
     void damagePlayer(float amount)
     {
-        Debug.Log($"i recieved {amount} damage");
+        transform.parent.GetComponent<IDamageable>().damage(amount);
     }
 }
