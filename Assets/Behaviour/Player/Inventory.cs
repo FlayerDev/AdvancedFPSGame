@@ -13,16 +13,18 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.InventoryDrop)) drop();
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
         if (scrollValue != 0) incrementIndex(scrollValue < 0);
     }
     void drop()
     {
-        //Drop Current
+        weaponHolders[enabledIndex].transform.GetChild(0).GetComponent<Item>().drop();
     }
     void drop(int index)
     {
-        //Drop Index
+        weaponHolders[index].transform.GetChild(0).GetComponent<Item>().drop();
+        setIndex(index);
     }
 
     #region ChangeWeapon

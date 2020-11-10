@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 7645089367403270687}
   - component: {fileID: 8811047272426347716}
   - component: {fileID: 2196027024392732459}
+  - component: {fileID: 2318571375709015638}
   - component: {fileID: 5626469467630197273}
   m_Layer: 9
   m_Name: Ak-47
@@ -128,6 +129,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
+  EnableOnDrop: []
+  DisableOnDrop:
+  - {fileID: 2196027024392732459}
+  RigidBodyOnDrop: 1
+  objCollider: {fileID: 2318571375709015638}
 --- !u!114 &2196027024392732459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,19 +159,32 @@ MonoBehaviour:
   defaultDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
     type: 3}
   isWeaponAutomatic: 1
-  mussle: {fileID: 0}
   baseDamage: 32
-  effectiveDistance: 500
+  effectiveRange: 500
   DistanceDropoff: 0.1
   PenetrationPower: 1
   isArmed: 1
   allowADS: 0
   RPM: 600
   doRecoil: 1
+  recoilReturnSpeed: 0.1
   VerticalRecoil: 0.1
   MaximumRecoil: 10
   HorizontalRecoil: 0.1
   HorizontalMultiplierOnMaxVertical: 3
+--- !u!65 &2318571375709015638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319120377766980121}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.13161394, y: 0.59163755, z: 1.7970473}
+  m_Center: {x: 0.0012300769, y: -0.06642025, z: -0.024599843}
 --- !u!95 &5626469467630197273
 Animator:
   serializedVersion: 3

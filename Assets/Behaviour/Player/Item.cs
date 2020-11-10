@@ -1,13 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IUsable
 {
     public WeaponType weaponType;
-    private void Awake()
+    [SerializeField] MonoBehaviour[] DisableOnDrop;
+    [SerializeField] bool RigidBodyOnDrop = true;
+    [SerializeField] Collider objCollider;
+    public void drop()
+    {
+        gameObject.transform.parent = null;
+        if (RigidBodyOnDrop) gameObject.AddComponent<Rigidbody>();
+        objCollider.enabled = true;
+        if (DisableOnDrop.Length > 0) foreach (MonoBehaviour obj in DisableOnDrop) obj.enabled = false;
+        GenericUtilities.ChangeLayer(gameObject, 0, true);
+    }
+
+    public void use(GameObject user)
     {
         
+    }
+
+    private void Awake()
+    {
+
     }
 }
 public enum WeaponType

@@ -42,7 +42,7 @@ public class Weapon : MonoBehaviour
     #endregion
     private void Awake()
     {
-        muzzle = GameObject.Find("Muzzle");
+        muzzle = LocalInfo.muzzle;
         if (isWeaponAutomatic) update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); };
         else update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
 

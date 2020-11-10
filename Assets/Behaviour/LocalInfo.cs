@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections;
+using System.Diagnostics;
+using UnityEditor;
 using UnityEngine;
 
 public static class LocalInfo
@@ -6,6 +9,7 @@ public static class LocalInfo
     public static bool IsPaused = false;
     public static bool Freeze = false;
     public static bool IsImobile { get => IsPaused || Freeze; }
+    public static GameObject muzzle { get => GameObject.Find("WorldCamera").transform.GetChild(0).gameObject };
 
     public static class KeyBinds
     {
