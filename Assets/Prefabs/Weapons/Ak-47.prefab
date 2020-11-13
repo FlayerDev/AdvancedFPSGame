@@ -129,7 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
-  EnableOnDrop: []
   DisableOnDrop:
   - {fileID: 2196027024392732459}
   RigidBodyOnDrop: 1
@@ -167,11 +166,12 @@ MonoBehaviour:
   allowADS: 0
   RPM: 600
   doRecoil: 1
-  recoilReturnSpeed: 0.1
-  VerticalRecoil: 0.1
-  MaximumRecoil: 10
-  HorizontalRecoil: 0.1
-  HorizontalMultiplierOnMaxVertical: 3
+  recoilReturnSpeed: 1
+  VerticalRecoil: 0.45
+  MaximumVerticalRecoil: 0.4
+  HorizontalRecoil: 0.15
+  HorizontalMultiplierOnMaxVertical: 0.3
+  MaxNegativeHorizontalRecoil: 2
 --- !u!65 &2318571375709015638
 BoxCollider:
   m_ObjectHideFlags: 0

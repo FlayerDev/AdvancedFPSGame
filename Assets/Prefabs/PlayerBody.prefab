@@ -79,6 +79,7 @@ MonoBehaviour:
   - {fileID: 4111161029231638262}
   - {fileID: 3784925135366608500}
   enabledIndex: 0
+  usableDistance: 5
   allowBombPickup: 0
 --- !u!1 &6214760105995793319
 GameObject:
@@ -753,7 +754,7 @@ PrefabInstance:
         type: 3}
       propertyPath: DisableOnDrop.Array.data[0]
       value: 
-      objectReference: {fileID: 8113452773589329127}
+      objectReference: {fileID: 0}
     - target: {fileID: 2780985778197270747, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
       propertyPath: m_Name
@@ -785,18 +786,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2120861405915459301}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8113452773589329127 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7923545306486934018, guid: 5ef24727e7b59af459424d3a200d3ce4,
-    type: 3}
-  m_PrefabInstance: {fileID: 2120861405915459301}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aacfbcf6e7574724aa03a1cfa8d88775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4111161029231638262 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2621964811259009043, guid: 5ef24727e7b59af459424d3a200d3ce4,

@@ -20,18 +20,19 @@ public class Weapon : MonoBehaviour
     GameObject muzzle;
     public float baseDamage = 32; // Initial damage of the weapon
     [Range(10f, 2000f)] public float effectiveRange = 500; // Max distance the bullet/Raycast will travel
-    public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]!
+    public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]! <-----------------------------------------------------------------------------------------
     public float PenetrationPower = 1f;// Νeutralizes the wallbang's DamageDropoffPerMaterial
     [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
     public bool allowADS = false;
     [SerializeField] int RPM = 200; // Rounds Per Minute: MS between shots = 1000 / (RPM / 60)
     [Header("Recoil")]
     public bool doRecoil = true;
-    [Range(.01f,1f)]public float recoilReturnSpeed = .1f;
-    public float VerticalRecoil = .1f;
-    public float MaximumRecoil = 10f;
+    [Range(.01f, 1f)] public float recoilReturnSpeed = 1f;
+    public float VerticalRecoil = .4f;
+    public float MaximumVerticalRecoil = 1f;
     public float HorizontalRecoil = .1f;
     public float HorizontalMultiplierOnMaxVertical = 3f;
+    public float MaxNegativeHorizontalRecoil = 3f;
 
     float currentVerticalRecoil = 0;
     float currentHorizontalRecoil = 0;
@@ -43,16 +44,16 @@ public class Weapon : MonoBehaviour
     private void Awake()
     {
         muzzle = LocalInfo.muzzle;
-        if (isWeaponAutomatic) update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); };
-        else update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
+        if (isWeaponAutomatic) { update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }; }
+        else {update += () =>  { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); }; }
 
         //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
     public void Update() => update();
     private void FixedUpdate()
     {
-        currentHorizontalRecoil /= 1f + recoilReturnSpeed;
-        currentVerticalRecoil /= 1f + recoilReturnSpeed;
+        currentHorizontalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
+        currentVerticalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
     }
     async void rearm()
     {
@@ -69,27 +70,35 @@ public class Weapon : MonoBehaviour
         rearm();
         float dmg = baseDamage;
         calculateRecoil();
-        RaycastHit[] hitarr = Physics.RaycastAll(muzzle.transform.position, 
-            muzzle.transform.forward + new Vector3(0f,currentVerticalRecoil, currentHorizontalRecoil), effectiveRange);
+        RaycastHit[] hitarr = Physics.RaycastAll(muzzle.transform.position,
+            muzzle.transform.forward + new Vector3(0f, currentVerticalRecoil, currentHorizontalRecoil), effectiveRange);
 
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
         foreach (RaycastHit item in hitarr)
         {
-            if (item.collider.gameObject.GetComponent<IDamageable>() != null) applyDamage(item.collider.gameObject, dmg);
+            if (item.collider.gameObject.TryGetComponent(out IDamageable dmgable)) applyDamage(dmgable, dmg);
             dmg = calculateDamage(dmg, item);
         }
     }
     #region Fire Functions
     void calculateRecoil()
     {
-        currentVerticalRecoil += VerticalRecoil / 10;
+        if (currentVerticalRecoil < MaximumVerticalRecoil)
+        {
+            currentVerticalRecoil += VerticalRecoil / 10;
+            currentHorizontalRecoil += HorizontalRecoil / 10;
+        }
+        else
+        {
+            currentHorizontalRecoil -= HorizontalRecoil * HorizontalMultiplierOnMaxVertical;
+        }
     }
     float calculateDamage(float dmg, RaycastHit hit)
     {
+        if (dmg == 0) return 0;
         Vector3 returnPoint = muzzle.transform.position + (hit.point - muzzle.transform.position).normalized * effectiveRange;
-        hit.collider.Raycast(new Ray(returnPoint , (muzzle.transform.position - returnPoint).normalized)
+        hit.collider.Raycast(new Ray(returnPoint, (muzzle.transform.position - returnPoint).normalized)
             , out RaycastHit outhit, effectiveRange * 2);
-        
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
         if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
@@ -110,9 +119,9 @@ public class Weapon : MonoBehaviour
         Instantiate(decal, inpoint, Quaternion.LookRotation(hit.normal));
         Instantiate(decal, outpoint, Quaternion.LookRotation(outhit.normal));
     }
-    void applyDamage(GameObject player, float amount)
+    void applyDamage(IDamageable dmgable, float amount)
     {
-        player.GetComponent<IDamageable>().damage(amount);
+        dmgable.damage(amount);
     }
     #endregion
     #region Dictionaries And Enums

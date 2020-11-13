@@ -4,6 +4,7 @@ public class Inventory : MonoBehaviour
 {
     public GameObject[] weaponHolders = new GameObject[3];
     public int enabledIndex = 0;
+    [Range(1f, 10f)] public float usableDistance = 5f;
     public bool allowBombPickup = false;
     void Start()
     {
@@ -13,14 +14,18 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.Use)) use();
         if (Input.GetKeyDown(LocalInfo.KeyBinds.InventoryDrop)) drop();
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
         if (scrollValue != 0) incrementIndex(scrollValue < 0);
     }
-    void drop()
+    void use()
     {
-        weaponHolders[enabledIndex].transform.GetChild(0).GetComponent<Item>().drop();
+        Physics.Raycast(new Ray(LocalInfo.muzzle.transform.position, LocalInfo.muzzle.transform.TransformDirection(Vector3.forward)), out RaycastHit hit, usableDistance);
+        if (hit.collider.gameObject.TryGetComponent(out IUsable usable)) usable.use(gameObject);
     }
+
+    void drop() => weaponHolders[enabledIndex].transform.GetChild(0).GetComponent<Item>().drop();
     void drop(int index)
     {
         weaponHolders[index].transform.GetChild(0).GetComponent<Item>().drop();

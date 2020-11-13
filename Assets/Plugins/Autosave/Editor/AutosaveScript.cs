@@ -30,7 +30,7 @@ public class AutoSave
 
     private static void Update()
     {
-        if (nextSaveTime > DateTime.Now) return;
+        if (nextSaveTime > DateTime.Now || EditorApplication.isPlayingOrWillChangePlaymode) return;
 
         nextSaveTime = nextSaveTime.AddMinutes(1);
 
