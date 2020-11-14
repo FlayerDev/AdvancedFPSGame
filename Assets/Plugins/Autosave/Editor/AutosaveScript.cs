@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-[InitializeOnLoad]
+
 public class AutoSave
 {
     private static DateTime nextSaveTime;
@@ -14,14 +14,14 @@ public class AutoSave
 
     static AutoSave()
     {
-        EditorApplication.playModeStateChanged += (PlayModeStateChange state) => {
+       /* EditorApplication.playModeStateChanged += (PlayModeStateChange state) => {
 
             if (!EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isPlaying) return;
 
             Debug.Log("Auto-saving all open scenes... " + state);
             EditorSceneManager.SaveOpenScenes();
             AssetDatabase.SaveAssets();
-        };
+        };*/
 
         nextSaveTime = DateTime.Now.AddMinutes(1);
         EditorApplication.update += Update;

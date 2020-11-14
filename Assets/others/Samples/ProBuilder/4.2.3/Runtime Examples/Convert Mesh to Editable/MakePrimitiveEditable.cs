@@ -21,7 +21,7 @@ namespace ProBuilder.Examples
 
 			// Import from a GameObject. In this case we're loading and assigning to the same GameObject, but you may
 			// load and apply to different Objects as well.
-			importer.Import(filter.sharedMesh);
+			importer.Import(filter.gameObject);
 
 			// Since we're loading and setting from the same object, it is necessary to create a new mesh to avoid
 			// overwriting the mesh that is being read from.

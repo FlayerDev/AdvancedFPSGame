@@ -22,6 +22,7 @@ public class Weapon : MonoBehaviour
     [Range(10f, 2000f)] public float effectiveRange = 500; // Max distance the bullet/Raycast will travel
     public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]! <-----------------------------------------------------------------------------------------
     public float PenetrationPower = 1f;// Νeutralizes the wallbang's DamageDropoffPerMaterial
+    public float bulletWeight = 1f;
     [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
     public bool allowADS = false;
     [SerializeField] int RPM = 200; // Rounds Per Minute: MS between shots = 1000 / (RPM / 60)
@@ -44,8 +45,9 @@ public class Weapon : MonoBehaviour
     private void Awake()
     {
         muzzle = LocalInfo.muzzle;
-        if (isWeaponAutomatic) { update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }; }
-        else {update += () =>  { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); }; }
+        update += isWeaponAutomatic
+            ? update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }
+        : () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
 
         //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
@@ -77,6 +79,7 @@ public class Weapon : MonoBehaviour
         foreach (RaycastHit item in hitarr)
         {
             if (item.collider.gameObject.TryGetComponent(out IDamageable dmgable)) applyDamage(dmgable, dmg);
+            if (item.collider.gameObject.TryGetComponent(out Rigidbody rb)) rb.AddForce((rb.position - muzzle.transform.position).normalized * bulletWeight);
             dmg = calculateDamage(dmg, item);
         }
     }

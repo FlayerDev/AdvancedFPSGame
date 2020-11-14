@@ -186,7 +186,7 @@ namespace Photon.Pun
             #endif
 
 
-            EditorApplication.playModeStateChanged += PlayModeStateChanged;
+            //EditorApplication.playModeStateChanged += PlayModeStateChanged;
 
             CompilationPipeline.assemblyCompilationStarted -= OnCompileStarted;
             CompilationPipeline.assemblyCompilationStarted += OnCompileStarted;
@@ -257,7 +257,7 @@ namespace Photon.Pun
         {
             PhotonEditor.UpdateRpcList();   // could be called when compilation finished (instead of when reload / compile starts)
         }
-
+        /*
         private static void PlayModeStateChanged(PlayModeStateChange state)
         {
             if (EditorApplication.isPlaying || !EditorApplication.isPlayingOrWillChangePlaymode)
@@ -270,7 +270,7 @@ namespace Photon.Pun
                 EditorUtility.DisplayDialog(CurrentLang.SetupWizardWarningTitle, CurrentLang.SetupWizardWarningMessage, CurrentLang.OkButton);
             }
         }
-
+        */
 
         #region GUI and Wizard
 
