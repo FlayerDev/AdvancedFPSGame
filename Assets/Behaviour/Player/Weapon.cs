@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
+using System.Threading;
 [RequireComponent(typeof(Item))]
 public class Weapon : MonoBehaviour
 {
@@ -54,6 +54,7 @@ public class Weapon : MonoBehaviour
     #endregion
     #region others
     private Action update;
+    private Thread fireThread;
     #endregion
     private void Awake()
     {
@@ -61,9 +62,10 @@ public class Weapon : MonoBehaviour
         update += isWeaponAutomatic
             ? update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }
         : () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
+        fireThread = new Thread(new ThreadStart(update));
         //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
-    public void Update() => Task.Run(update);
+    public void Update() => fireThread.Start();
     private void FixedUpdate()
     {
         currentHorizontalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
