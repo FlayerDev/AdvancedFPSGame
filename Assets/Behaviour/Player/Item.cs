@@ -6,6 +6,7 @@ public class Item : MonoBehaviour, IUsable
     [SerializeField] MonoBehaviour[] DisableOnDrop;
     [SerializeField] bool RigidBodyOnDrop = true;
     [SerializeField] Collider objCollider;
+    
     public void drop()
     {
         gameObject.transform.parent = null;

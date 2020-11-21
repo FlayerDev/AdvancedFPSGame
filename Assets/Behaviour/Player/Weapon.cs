@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 [RequireComponent(typeof(Item))]
 public class Weapon : MonoBehaviour
 {
@@ -14,18 +15,23 @@ public class Weapon : MonoBehaviour
     public GameObject concreteDecal;
     public GameObject defaultDecal;
     #endregion
-    [Space]
-    [Header("Basic Settings")]
+    #region Generic Options
+    [Space][Header("Basic Settings")]
     public bool isWeaponAutomatic = true; //While enabled the weapon will automatically fire when the Shoot button is held
-    GameObject muzzle;
     public float baseDamage = 32; // Initial damage of the weapon
     [Range(10f, 2000f)] public float effectiveRange = 500; // Max distance the bullet/Raycast will travel
     public float DistanceDropoff = .1f;// ![TO BE IMPLEMENTED]! <-----------------------------------------------------------------------------------------
     public float PenetrationPower = 1f;// Νeutralizes the wallbang's DamageDropoffPerMaterial
     public float bulletWeight = 1f;
-    [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
     public bool allowADS = false;
     [SerializeField] int RPM = 200; // Rounds Per Minute: MS between shots = 1000 / (RPM / 60)
+    #endregion
+    #region Runtime
+    [Header("Runtime")]
+    [SerializeField] bool isArmed = true; // If enabled weapon will fire upon Fire button click
+    GameObject muzzle;
+    #endregion
+    #region Recoil
     [Header("Recoil")]
     public bool doRecoil = true;
     [Range(.01f, 1f)] public float recoilReturnSpeed = 1f;
@@ -37,7 +43,14 @@ public class Weapon : MonoBehaviour
 
     float currentVerticalRecoil = 0;
     float currentHorizontalRecoil = 0;
-
+    #endregion
+    #region Mag
+    [Header("Ammunition")]
+    public int inventoryCapacity = 90;
+    public int magSize = 30;
+    public int reloadAmount = 30;
+    public float reloadTime = 2500f;
+    #endregion
     #endregion
     #region others
     private Action update;
@@ -48,10 +61,9 @@ public class Weapon : MonoBehaviour
         update += isWeaponAutomatic
             ? update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }
         : () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
-
         //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
-    public void Update() => update();
+    public void Update() => Task.Run(update);
     private void FixedUpdate()
     {
         currentHorizontalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
@@ -104,7 +116,9 @@ public class Weapon : MonoBehaviour
             , out RaycastHit outhit, effectiveRange * 2);
         Vector3 inpoint = hit.point; Vector3 outpoint = outhit.point; // Gets coordinates of hit positions
         printBulletDecal(hit, outhit, inpoint, outpoint);
-        if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out float dropvalue)) return 0f;
+        float dropvalue = 0f;
+        if (TryGetComponent(out ObjectValueOverride valueOverride)) dropvalue = valueOverride.wallbangDamageDropoff;
+        else if (!DamageDropoffPerMaterial.MaterialValue.TryGetValue(hit.collider.gameObject.tag, out dropvalue)) return 0f;
         dmg -= Vector3.Distance(inpoint, outpoint) * (dropvalue / PenetrationPower);
         dmg = dmg < 999f && dmg > 0f ? dmg : (dmg > 999f ? 999f : 0f);
         return dmg;
@@ -119,12 +133,13 @@ public class Weapon : MonoBehaviour
     {
         if (hit.collider.gameObject.CompareTag("Player")) return;
         var decal = decalDictionary(hit.collider.gameObject.tag) ?? defaultDecal;
+        if (TryGetComponent(out ObjectValueOverride valueOverride)) decal = valueOverride.bulletDecal ?? decal;
         Instantiate(decal, inpoint, Quaternion.LookRotation(hit.normal));
         Instantiate(decal, outpoint, Quaternion.LookRotation(outhit.normal));
     }
     void applyDamage(IDamageable dmgable, float amount)
     {
-        dmgable.damage(amount);
+        dmgable.damage(amount, gameObject);
     }
     #endregion
     #region Dictionaries And Enums
