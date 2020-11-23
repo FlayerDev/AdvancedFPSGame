@@ -1,6 +1,6 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Threading;
 [RequireComponent(typeof(Item))]
 public class Weapon : MonoBehaviour
@@ -67,8 +67,8 @@ public class Weapon : MonoBehaviour
     public void Update() => update();
     private void FixedUpdate()
     {
-        currentHorizontalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
-        currentVerticalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
+        currentHorizontalRecoil -= ((recoilReturnSpeed + currentHorizontalRecoil / 10f) + UnityEngine.Random.Range(.06f,-.06f)) * Time.fixedDeltaTime;
+        currentVerticalRecoil -= ((recoilReturnSpeed + currentVerticalRecoil / 10f) + UnityEngine.Random.Range(.06f, -.06f)) * Time.fixedDeltaTime;
     }
     async void rearm()
     {

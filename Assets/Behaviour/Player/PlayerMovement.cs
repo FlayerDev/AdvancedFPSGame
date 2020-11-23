@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 10f;
     public float gravity = -25f;
     public float jumpForce = 2f;
-    public float ovSphereRadius = .5f;
 
     //[SerializeField]float previousY = 0;
     public bool isGrounded = false;
@@ -35,12 +34,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (groundCheckSphere.GetComponent<GroundTracer>().isGrounded)
         {
-            velocity.y /= 1.1f;
+            velocity.y /= 1.1f ;
             isGrounded = true;
         } else
         {
+            velocity.y += gravity * Time.fixedDeltaTime;
             isGrounded = false;
         }
-        if (!isGrounded) velocity.y += gravity * Time.fixedDeltaTime;
+        //if (!isGrounded) velocity.y += gravity * Time.fixedDeltaTime;
     }
 }

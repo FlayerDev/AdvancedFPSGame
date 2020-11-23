@@ -81,6 +81,7 @@ MonoBehaviour:
   - {fileID: 2621964811259009043}
   - {fileID: 3019682711336155281}
   enabledIndex: 0
+  usableDistance: 5
   allowBombPickup: 0
 --- !u!1 &3019682711336155281
 GameObject:
@@ -157,6 +158,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -172,6 +178,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -184,16 +195,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7645089367403270687, guid: cac9bd5fd239895419bbea272723bde8,
         type: 3}
