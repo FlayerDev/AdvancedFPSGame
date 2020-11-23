@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour
     public GameObject defaultDecal;
     #endregion
     #region Generic Options
-    [Space][Header("Basic Settings")]
+    [Header("Basic Settings")]
     public bool isWeaponAutomatic = true; //While enabled the weapon will automatically fire when the Shoot button is held
     public float baseDamage = 32; // Initial damage of the weapon
     [Range(10f, 2000f)] public float effectiveRange = 500; // Max distance the bullet/Raycast will travel
@@ -54,7 +54,7 @@ public class Weapon : MonoBehaviour
     #endregion
     #region others
     private Action update;
-    private Thread fireThread;
+    //private Thread fireThread;
     #endregion
     private void Awake()
     {
@@ -62,10 +62,9 @@ public class Weapon : MonoBehaviour
         update += isWeaponAutomatic
             ? update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }
         : () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
-        fireThread = new Thread(new ThreadStart(update));
         //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
     }
-    public void Update() => fireThread.Start();
+    public void Update() => update();
     private void FixedUpdate()
     {
         currentHorizontalRecoil /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;

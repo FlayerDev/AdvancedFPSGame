@@ -5,7 +5,7 @@ public class Glass : MonoBehaviour, IDamageable
     [SerializeField]private float health = 50;
     public float hp { get => health; }
 
-    public void damage(float amount)
+    public void damage(float amount , GameObject offender)
     {
         health -= amount > 0f ? amount : 0f;
         if (health < 0f) shutter();

@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public static class GenericUtilities
 {
@@ -9,6 +11,16 @@ public static class GenericUtilities
         for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             gameObject.transform.GetChild(i).gameObject.layer = layer;
+        }
+    }
+    public static T DeepClone<T>(this T a)
+    {
+        using (MemoryStream stream = new MemoryStream())
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, a);
+            stream.Position = 0;
+            return (T)formatter.Deserialize(stream);
         }
     }
 }
