@@ -160,7 +160,7 @@ MonoBehaviour:
   defaultDecal: {fileID: 2601721796434259972, guid: 0b98e0980826b6341b7244ab15e80085,
     type: 3}
   isWeaponAutomatic: 1
-  baseDamage: 33
+  baseDamage: 32
   effectiveRange: 500
   DistanceDropoff: 0.1
   PenetrationPower: 1

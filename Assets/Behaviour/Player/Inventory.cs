@@ -14,14 +14,15 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(LocalInfo.KeyBinds.Use)) use();
-        if (Input.GetKeyDown(LocalInfo.KeyBinds.InventoryDrop)) drop();
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.Use) && !LocalInfo.IsPaused) use();
+        if (Input.GetKeyDown(LocalInfo.KeyBinds.InventoryDrop) && !LocalInfo.IsPaused) drop();
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
         if (scrollValue != 0) incrementIndex(scrollValue < 0);
     }
     void use()
     {
-        Physics.Raycast(new Ray(LocalInfo.muzzle.transform.position, LocalInfo.muzzle.transform.TransformDirection(Vector3.forward)), out RaycastHit hit, usableDistance);
+        Physics.Raycast(new Ray(LocalInfo.muzzle.transform.position, LocalInfo.muzzle.transform.TransformDirection(Vector3.forward))
+            , out RaycastHit hit, usableDistance);
         if (hit.collider.gameObject.TryGetComponent(out IUsable usable)) usable.use(gameObject);
     }
 

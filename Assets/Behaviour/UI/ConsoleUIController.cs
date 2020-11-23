@@ -14,7 +14,7 @@ public class ConsoleUIController : MonoBehaviour
     public GameObject consoleCanvas;
 
     List<string> consoleContent = new List<string>();
-    private void Start() => consoleTMPUGUI.autoSizeTextContainer = true;
+    //private void Start() => consoleTMPUGUI.autoSizeTextContainer = true;
     void Update()
     {
         if (Input.GetKeyDown(LocalInfo.KeyBinds.Console)) counterState();
