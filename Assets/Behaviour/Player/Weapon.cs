@@ -41,11 +41,11 @@ public class Weapon : MonoBehaviour
     public float HorizontalMultiplierOnMaxVertical = 3f;
     public float MaxNegativeHorizontalRecoil = 3f;
 
-    float currentVerticalRecoil = 0;
-    float currentHorizontalRecoil = 0;
+    Vector2 currentRecoil = Vector2.zero; // X = Vertical Y = Horizontal
     #endregion
     #region Mag
     [Header("Ammunition")]
+    public int ammo;
     public int inventoryCapacity = 90;
     public int magSize = 30;
     public int reloadAmount = 30;
@@ -58,6 +58,7 @@ public class Weapon : MonoBehaviour
     #endregion
     private void Awake()
     {
+        ammo = magSize;
         muzzle = LocalInfo.muzzle;
         update += isWeaponAutomatic
             ? update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }
@@ -67,8 +68,8 @@ public class Weapon : MonoBehaviour
     public void Update() => update();
     private void FixedUpdate()
     {
-        currentHorizontalRecoil -= ((recoilReturnSpeed + currentHorizontalRecoil / 10f) + UnityEngine.Random.Range(.06f,-.06f)) * Time.fixedDeltaTime;
-        currentVerticalRecoil -= ((recoilReturnSpeed + currentVerticalRecoil / 10f) + UnityEngine.Random.Range(.06f, -.06f)) * Time.fixedDeltaTime;
+        currentRecoil.y /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
+        currentRecoil.x /= 1f + recoilReturnSpeed * Time.fixedDeltaTime;
     }
     async void rearm()
     {
@@ -82,11 +83,12 @@ public class Weapon : MonoBehaviour
     public void fire()
     {
         if (!isArmed) return;
+        if (ammo > 0) ammo--; else return;
         rearm();
         float dmg = baseDamage;
         calculateRecoil();
         RaycastHit[] hitarr = Physics.RaycastAll(muzzle.transform.position,
-            muzzle.transform.forward + new Vector3(0f, currentVerticalRecoil, currentHorizontalRecoil), effectiveRange);
+            muzzle.transform.forward + new Vector3(0f, currentRecoil.x, currentRecoil.y), effectiveRange);
 
         Array.Sort(hitarr, (x, y) => x.distance.CompareTo(y.distance)); // Sorts hit objects by distance
         foreach (RaycastHit item in hitarr)
@@ -99,14 +101,14 @@ public class Weapon : MonoBehaviour
     #region Fire Functions
     void calculateRecoil()
     {
-        if (currentVerticalRecoil < MaximumVerticalRecoil)
+        if (currentRecoil.x < MaximumVerticalRecoil)
         {
-            currentVerticalRecoil += VerticalRecoil / 10;
-            currentHorizontalRecoil += HorizontalRecoil / 10;
+            currentRecoil.x += VerticalRecoil / 10;
+            currentRecoil.y += HorizontalRecoil / 10;
         }
         else
         {
-            currentHorizontalRecoil -= HorizontalRecoil * HorizontalMultiplierOnMaxVertical;
+            currentRecoil.y -= HorizontalRecoil * HorizontalMultiplierOnMaxVertical;
         }
     }
     float calculateDamage(float dmg, RaycastHit hit)
