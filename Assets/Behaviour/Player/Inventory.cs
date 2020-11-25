@@ -21,8 +21,7 @@ public class Inventory : MonoBehaviour
     }
     void use()
     {
-        Physics.Raycast(new Ray(LocalInfo.muzzle.transform.position, LocalInfo.muzzle.transform.TransformDirection(Vector3.forward))
-            , out RaycastHit hit, usableDistance);
+        RaycastHit hit = (RaycastHit)LocalInfo.useRaycastHit;
         if (hit.collider.gameObject.TryGetComponent(out IUsable usable)) usable.use(gameObject);
     }
 
