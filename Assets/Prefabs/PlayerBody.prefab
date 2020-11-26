@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: e990c217065a54d44848b737d2eab73e, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -237,6 +237,7 @@ MonoBehaviour:
     m_BarrelClipping: 0.25
     m_Anamorphism: 0
   flipYMode: 0
+  xrRendering: 1
   fullscreenPassthrough: 0
   allowDynamicResolution: 0
   customRenderingSettings: 0
@@ -322,6 +323,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -346,6 +348,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6684090196031698295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,7 +398,6 @@ MonoBehaviour:
   speed: 5
   gravity: -19.62
   jumpForce: 1.4
-  ovSphereRadius: 0.5
   isGrounded: 1
   velocity: {x: 0, y: 0, z: 0}
   groundCheckSphere: {fileID: 6684090197611193651}
@@ -654,6 +656,7 @@ MonoBehaviour:
     m_BarrelClipping: 0.25
     m_Anamorphism: 0
   flipYMode: 0
+  xrRendering: 1
   fullscreenPassthrough: 0
   allowDynamicResolution: 0
   customRenderingSettings: 0
@@ -687,6 +690,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.381
       objectReference: {fileID: 0}
@@ -702,6 +710,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -713,16 +726,6 @@ PrefabInstance:
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 549741216808657629, guid: 5ef24727e7b59af459424d3a200d3ce4,

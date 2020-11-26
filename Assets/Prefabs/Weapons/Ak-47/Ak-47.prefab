@@ -90,8 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7645089367403270687}
-  - component: {fileID: 8811047272426347716}
   - component: {fileID: 2196027024392732459}
+  - component: {fileID: 8811047272426347716}
   - component: {fileID: 2318571375709015638}
   - component: {fileID: 5626469467630197273}
   m_Layer: 9
@@ -118,23 +118,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8811047272426347716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 319120377766980121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a1e0dd0adcf184b9210dd463fb8c98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponType: 0
-  DisableOnDrop:
-  - {fileID: 2196027024392732459}
-  RigidBodyOnDrop: 1
-  objCollider: {fileID: 2318571375709015638}
 --- !u!114 &2196027024392732459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,10 +158,28 @@ MonoBehaviour:
   HorizontalRecoil: 0.15
   HorizontalMultiplierOnMaxVertical: 0.3
   MaxNegativeHorizontalRecoil: 2
+  ammo: 0
   inventoryCapacity: 90
   magSize: 30
   reloadAmount: 30
   reloadTime: 2500
+--- !u!114 &8811047272426347716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319120377766980121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1a1e0dd0adcf184b9210dd463fb8c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 0
+  DisableOnDrop:
+  - {fileID: 2196027024392732459}
+  RigidBodyOnDrop: 1
+  objCollider: {fileID: 2318571375709015638}
 --- !u!65 &2318571375709015638
 BoxCollider:
   m_ObjectHideFlags: 0

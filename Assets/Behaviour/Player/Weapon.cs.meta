@@ -17,7 +17,7 @@ MonoImporter:
       type: 3}
   - massle: {instanceID: 0}
   executionOrder: 0
-  icon: {instanceID: 0}
+  icon: {fileID: 2800000, guid: 8b24e8e2187dcf24a847b8550ee902b6, type: 3}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
