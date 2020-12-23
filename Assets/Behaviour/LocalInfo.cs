@@ -24,9 +24,24 @@ public static class LocalInfo
         public static KeyCode InventoryMain = KeyCode.Alpha1;
         public static KeyCode InventorySecondary = KeyCode.Alpha2;
         public static KeyCode InventoryUtility = KeyCode.Alpha3;
-
         public static KeyCode InventoryDrop = KeyCode.G;
-
         public static KeyCode Console = KeyCode.F1;
+
+        public static KeyCode GetKeyPressed(bool GetKeyDown = false)
+        {
+            KeyCode[] keyCodes = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
+            foreach (var item in keyCodes)
+            {
+                if (GetKeyDown)
+                {
+                    if (Input.GetKeyDown(item)) return item;
+                }
+                else
+                {
+                    if (Input.GetKey(item)) return item;
+                }
+            }
+            return KeyCode.None;
+        }
     }
 }
