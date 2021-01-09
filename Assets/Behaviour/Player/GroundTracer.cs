@@ -11,8 +11,8 @@ public class GroundTracer : MonoBehaviour
     private void OnTriggerExit(Collider other) => isGrounded = false;
     private void OnTriggerStay(Collider other) => isGrounded = true;
     private void OnTriggerEnter(Collider other) {
-        if (transform.parent.GetComponent<PlayerMovement>().velocity.y < -minimumDamageSpeed)
-            damagePlayer((Mathf.Abs(transform.parent.GetComponent<PlayerMovement>().velocity.y) - minimumDamageSpeed) * fallDamageMultiplier);
+        if (transform.parent.GetComponent<CustomPlayerMovement>().velocity.y < -minimumDamageSpeed)
+            damagePlayer((Mathf.Abs(transform.parent.GetComponent<CustomPlayerMovement>().velocity.y) - minimumDamageSpeed) * fallDamageMultiplier);
     }
     void damagePlayer(float amount)
     {
