@@ -36,6 +36,10 @@ namespace Mirror
         [SyncVar]
         public int index;
 
+        #region Ext
+        public string Name { get; set; } = "";
+        #endregion
+
         #region Unity Callbacks
 
         /// <summary>
@@ -134,7 +138,7 @@ namespace Mirror
 
         void DrawPlayerReadyState()
         {
-            GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
+            GUILayout.BeginArea(new Rect(20 + (index * 100), 200, 90f, 130f));
 
             GUILayout.Label($"Player [{index + 1}]");
 
