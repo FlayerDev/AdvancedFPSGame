@@ -14,6 +14,8 @@ public static class LocalInfo
         set => useDistance = (float)value;
     }
 
+    public static CtrlAnimationMovementParameters ctrlAnimSpeedSingleton;
+
     public static class KeyBinds
     {
         public static KeyCode Shoot = KeyCode.Mouse0;

@@ -16,6 +16,7 @@ namespace Unity.Flayer.InputSystem
             {"Reload", KeyCode.R },
             {"Use", KeyCode.E },
             {"Drop", KeyCode.G },
+            {"Walk", KeyCode.LeftShift },
             {"Console", KeyCode.F1 },
         };
 

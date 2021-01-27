@@ -15,7 +15,9 @@ public class CustomPlayerMovement : MonoBehaviour
     public bool isGrounded = false;
     public Vector3 velocity;
     public GameObject groundCheckSphere;
+    public float AnimationSpeedMultiplier = 1f;
 
+    Vector2 LastLocation = new Vector2(0,0);
     void Update()
     {
         float x = Input.GetAxis("Horizontal");      // X- = A ,X+ = D
@@ -29,6 +31,16 @@ public class CustomPlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpForce * -2 * gravity);
         }
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void LateUpdate()
+    {
+        if (LocalInfo.ctrlAnimSpeedSingleton != null)
+        {
+            var vec = (Vector2)gameObject.transform.position - LastLocation;
+            LocalInfo.ctrlAnimSpeedSingleton.MoveDirection = vec.normalized;
+            LocalInfo.ctrlAnimSpeedSingleton.MoveSpeed = vec.magnitude * AnimationSpeedMultiplier;
+        }
     }
     private void FixedUpdate()
     {
