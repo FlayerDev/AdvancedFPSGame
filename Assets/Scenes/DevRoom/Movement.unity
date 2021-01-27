@@ -1307,12 +1307,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1319310335}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.052, z: 0.108}
+  m_LocalRotation: {x: -0.0006981306, y: -0.00000074505795, z: -0.00000006813206,
+    w: 0.99999976}
+  m_LocalPosition: {x: 0, y: 1.719579, z: 0.101317406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1720135346}
-  m_RootOrder: 0
+  m_Father: {fileID: 1720135458}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1319310337
 MonoBehaviour:
@@ -2021,7 +2022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611430230}
   m_LocalRotation: {x: -0, y: -0.7071057, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0, y: 0.172, z: 0}
+  m_LocalPosition: {x: 0, y: 0.106, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1720135458}
@@ -3311,7 +3312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef07a4f44b8bb940b64d1b9cbc16dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraObj: {fileID: 1719710354}
+  cameraObj: {fileID: 1319310335}
   playerBody: {fileID: 1719710466}
   mouseSensitivity: 10
 --- !u!1 &1719710474
@@ -4135,8 +4136,7 @@ Transform:
   m_LocalRotation: {x: -0.08924198, y: -0.000000664846, z: 0.000000059569857, w: 0.99601}
   m_LocalPosition: {x: 5.4267707e-15, y: 0.10393006, z: -4.973799e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1319310336}
+  m_Children: []
   m_Father: {fileID: 1720135402}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4749,6 +4749,7 @@ Transform:
   - {fileID: 1720135344}
   - {fileID: 1611430234}
   - {fileID: 1720135456}
+  - {fileID: 1319310336}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
