@@ -5,7 +5,9 @@ using UnityEngine;
 public class CtrlAnimationMovementParameters : StateMachineBehaviour
 {
     public float MoveSpeed = 1f;
-    public Vector2 MoveDirection = new Vector2(0,0);
+    Vector2 moveDirection = new Vector2(0, 0);
+    [Range(1f,2f)]public float SmoothDamp = 1.5f;
+    public Vector2 MoveDirection { get => moveDirection; set { moveDirection = (moveDirection + value)/SmoothDamp; } }
     public bool Crouched = false;
 
     public void Recalculate()
@@ -25,10 +27,17 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetFloat("Speed", MoveSpeed);
-        animator.SetFloat("Y_Velocity", MoveDirection.y);
-        animator.SetFloat("X_Velocity", MoveDirection.x);
+        animator.SetFloat("Y_Velocity", moveDirection.y);
+        animator.SetFloat("X_Velocity", moveDirection.x);
         animator.SetBool("Crouched", Crouched);
+        if(moveDirection.sqrMagnitude < 0.1)
+        {
+            animator.SetFloat("Speed", 1f);
+        }
+        else
+        {
+            animator.SetFloat("Speed", MoveSpeed);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

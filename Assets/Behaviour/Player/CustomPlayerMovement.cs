@@ -37,9 +37,10 @@ public class CustomPlayerMovement : MonoBehaviour
     {
         if (LocalInfo.ctrlAnimSpeedSingleton != null)
         {
-            var vec = (Vector2)gameObject.transform.position - LastLocation;
+            var vec = (new Vector2(gameObject.transform.position.x , gameObject.transform.position.z) - LastLocation) / Time.deltaTime;
             LocalInfo.ctrlAnimSpeedSingleton.MoveDirection = vec.normalized;
-            LocalInfo.ctrlAnimSpeedSingleton.MoveSpeed = vec.magnitude * AnimationSpeedMultiplier;
+            LocalInfo.ctrlAnimSpeedSingleton.MoveSpeed = vec.magnitude * AnimationSpeedMultiplier * Time.deltaTime;
+            LastLocation = new Vector2(gameObject.transform.position.x, gameObject.transform.position.z);
         }
     }
     private void FixedUpdate()
