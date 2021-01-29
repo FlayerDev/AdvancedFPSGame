@@ -43,6 +43,7 @@ public class CustomPlayerMovement : MonoBehaviour
         if (InputManager.GetBindDown("Jump") && isGrounded && !LocalInfo.IsPaused)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2 * gravity);
+            CtrlAnimationMovementParameters.Singleton.Jump = true;
         }
         controller.Move(velocity * Time.deltaTime);
 
@@ -64,7 +65,7 @@ public class CustomPlayerMovement : MonoBehaviour
         {
             //Planar Movement
             var vec = ((transform.position - LastLocation) / Time.deltaTime);
-            var vecmag = vec.magnitude/10;
+            var vecmag = vec.magnitude / 10;
             var angle = (Quaternion.LookRotation(
                 vec, Vector3.up).eulerAngles.y * Mathf.Deg2Rad) - (transform.rotation.eulerAngles.y * Mathf.Deg2Rad);
             var movDir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * (vecmag > .1 ? vecmag : 0);
@@ -75,11 +76,13 @@ public class CustomPlayerMovement : MonoBehaviour
             CtrlAnimationMovementParameters.Singleton.MoveDirection = movDir;
             CtrlAnimationMovementParameters.Singleton.MoveSpeed = vec.magnitude * AnimationSpeedMultiplier * Time.deltaTime;
             CtrlAnimationMovementParameters.Singleton.PlayerAlt = GenericUtilities.ToPercent01(CrouchedHeight, UprightHeight, HeightBuffer);
+            CtrlAnimationMovementParameters.Singleton.Grounded = isGrounded;
 
             LastLocation = transform.position;
 
-            //
+
         }
+        else if (JumpParameterMachine.Singleton != null) JumpParameterMachine.Singleton.Grounded = isGrounded;
     }
     private void FixedUpdate()
     {

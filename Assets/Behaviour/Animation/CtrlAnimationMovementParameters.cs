@@ -10,6 +10,8 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
     Vector2 moveDirection = new Vector2(0, 0);
     [Range(1f,2f)]public float SmoothDamp = 1.5f;
     public float PlayerAlt = 1f;
+    public bool Grounded = true;
+    public bool Jump = false;
 
     public Vector2 MoveDirection { get => moveDirection; set {
             if (moveDirection.sqrMagnitude < .1f && moveDirection.sqrMagnitude > value.sqrMagnitude) moveDirection = Vector2.zero;
@@ -22,7 +24,13 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
     {
         animator.SetFloat("Y_Velocity", moveDirection.y);
         animator.SetFloat("X_Velocity", moveDirection.x);
+        animator.SetBool("Grounded", Grounded);
         animator.SetFloat("PlayerAlt", PlayerAlt);
+        if (Jump)
+        {
+            animator.SetTrigger("Jump");
+            Jump = false;
+        }
         if(moveDirection.sqrMagnitude < 0.1)
         {
             animator.SetFloat("Speed", 1f);
@@ -46,8 +54,8 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
     //}
 
     // OnStateIK is called right after Animator.OnAnimatorIK()
-    override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
+    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
         // Implement code that sets up animation IK (inverse kinematics)
-    }
+    //}
 }
