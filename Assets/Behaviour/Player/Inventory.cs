@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Unity.Flayer.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(LocalInfo.KeyBinds.Use) && !LocalInfo.IsPaused) use();
-        if (Input.GetKeyDown(LocalInfo.KeyBinds.InventoryDrop) && !LocalInfo.IsPaused) drop();
+        if (InputManager.GetBindDown("Use") && !LocalInfo.IsPaused) use();
+        if (InputManager.GetBindDown("Drop") && !LocalInfo.IsPaused) drop();
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
         if (scrollValue != 0) incrementIndex(scrollValue < 0);
     }

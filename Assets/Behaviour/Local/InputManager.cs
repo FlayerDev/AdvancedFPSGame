@@ -17,14 +17,21 @@ namespace Unity.Flayer.InputSystem
             {"Use", KeyCode.E },
             {"Drop", KeyCode.G },
             {"Walk", KeyCode.LeftShift },
+            {"Crouch", KeyCode.LeftControl },
             {"Console", KeyCode.F1 },
         };
 
-        public static bool GetBind(string key) => KeyBinds.TryGetValue(key, out KeyCode code) ? Input.GetKey(code) : false;
+        public static bool GetBind(string key) => KeyBinds.TryGetValue(key, out KeyCode code) ? Input.GetKey(code) : ReportMissingBind(key);
 
-        public static bool GetBindDown(string key) => KeyBinds.TryGetValue(key, out KeyCode code) ? Input.GetKeyDown(code) : false;
+        public static bool GetBindDown(string key) => KeyBinds.TryGetValue(key, out KeyCode code) ? Input.GetKeyDown(code) : ReportMissingBind(key);
 
-        public static bool GetBindUp(string key) => KeyBinds.TryGetValue(key, out KeyCode code) ? Input.GetKeyUp(code) : false;
+        public static bool GetBindUp(string key) => KeyBinds.TryGetValue(key, out KeyCode code) ? Input.GetKeyUp(code) : ReportMissingBind(key);
+
+        public static bool ReportMissingBind(string key)
+        {
+            Debug.LogWarning($"Bind For {key} Missing");
+            return false;
+        }
 
         public static void ChangeValue(string key)
         {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.Flayer.InputSystem;
 [RequireComponent(typeof(Item))]
 public class Weapon : MonoBehaviour
 {
@@ -61,9 +62,9 @@ public class Weapon : MonoBehaviour
         ammo = magSize;
         muzzle = LocalInfo.muzzle;
         update += isWeaponAutomatic
-            ? update += () => { if (Input.GetKey(LocalInfo.KeyBinds.Shoot)) fire(); }
-        : () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.Shoot)) fire(); };
-        //if (allowADS) update += () => { if (Input.GetKeyDown(LocalInfo.KeyBinds.ADS)) ; };
+            ? update += () => { if (InputManager.GetBind("Primary")) fire(); }
+        : () => { if (InputManager.GetBindDown("Primary")) fire(); };
+        //if (allowADS) update += () => { // };
     }
     public void Update() => update();
     private void FixedUpdate()

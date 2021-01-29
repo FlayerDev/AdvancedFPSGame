@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class CtrlAnimationMovementParameters : StateMachineBehaviour
 {
+    public static CtrlAnimationMovementParameters Singleton;
+
     public float MoveSpeed = 1f;
     Vector2 moveDirection = new Vector2(0, 0);
     [Range(1f,2f)]public float SmoothDamp = 1.5f;
-    public Vector2 MoveDirection { get => moveDirection; set { moveDirection = (moveDirection + value)/SmoothDamp; } }
-    public bool Crouched = false;
+    public float PlayerAlt = 1f;
 
-    public void Recalculate()
-    {
-        if (_animator != null) _animator.SetTrigger("Recalculate");
-    }
-
-    Animator _animator;
-
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        _animator = animator;
-        LocalInfo.ctrlAnimSpeedSingleton = this;
+    public Vector2 MoveDirection { get => moveDirection; set {
+            if (moveDirection.sqrMagnitude < .1f && moveDirection.sqrMagnitude > value.sqrMagnitude) moveDirection = Vector2.zero;
+            else moveDirection = (moveDirection + value) / SmoothDamp;
+        } 
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -29,7 +22,7 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
     {
         animator.SetFloat("Y_Velocity", moveDirection.y);
         animator.SetFloat("X_Velocity", moveDirection.x);
-        animator.SetBool("Crouched", Crouched);
+        animator.SetFloat("PlayerAlt", PlayerAlt);
         if(moveDirection.sqrMagnitude < 0.1)
         {
             animator.SetFloat("Speed", 1f);
@@ -40,11 +33,11 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
         }
     }
 
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) => Singleton = this;
+    
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        LocalInfo.ctrlAnimSpeedSingleton = null;
-    }
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) => Singleton = null;
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -53,8 +46,8 @@ public class CtrlAnimationMovementParameters : StateMachineBehaviour
     //}
 
     // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
+    override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // Implement code that sets up animation IK (inverse kinematics)
+    }
 }
