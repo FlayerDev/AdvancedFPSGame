@@ -23,4 +23,10 @@ public static class GenericUtilities
             return (T)formatter.Deserialize(stream);
         }
     }
+    public static float ToPercent01(float min, float max, float value)
+    {
+        float range = max - min;
+        float output = (value - min) / range;
+        return output;
+    }
 }
